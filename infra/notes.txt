@@ -1,0 +1,9 @@
+Product Registry Stack
+    When deleting
+        On Route 53,Should manually delete a record that looks like
+        _0d59c18e1494f97649e66ce914727214.connvey.com - CNAME - Simple
+
+        - Resolution - create a script to handle this
+Frontend Stack
+    When deleting S3
+        Should be emptied first

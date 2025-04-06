@@ -1,0 +1,29 @@
+{
+  "name": "js-bun-monorepo",
+  "version": "1.0.0",
+  "type": "module",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*",
+    "infra/*"
+  ],
+  "scripts": {
+    "dev": "bun --cwd apps/web dev",
+    "build": "bun --cwd apps/web build",
+    "start": "bun --cwd apps/web start",
+    "cdk:deploy": "bun --cwd infra deploy",
+    "cdk:destroy": "bun --cwd infra destroy",
+    "cdk:synth": "bun --cwd infra synth",
+    "typecheck": "bun --cwd apps/web typecheck",
+    "lint": "bun --cwd apps/web lint",
+    "format": "bun --cwd apps/web format",
+    "test": "bun --cwd apps/web test"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  }
+}
