@@ -332,18 +332,16 @@ export class FrontendStack extends cdk.Stack {
         cloudFrontOriginRequestPolicy.cfnOptions.deletionPolicy = cdk.CfnDeletionPolicy.DELETE;
         //#endregion
 
-        const DOMAIN_NAME = "connvey.com"
-        const HOSTED_ZONE_ID = 'Z074188516ILW9MLTCKG7';
+        const DOMAIN_NAME = process.env.DOMAIN_NAME || ""
 
         const hostedZone = route53.HostedZone.fromHostedZoneAttributes(this, `${stackName}-hosted-zone`, {
-            hostedZoneId: HOSTED_ZONE_ID,
+            hostedZoneId: process.env.HOSTED_ZONE_ID || "",
             zoneName: DOMAIN_NAME
         });
 
         const SUB_DOMAIN = `${stackName}.${DOMAIN_NAME}`;
-        const CERTIFICATE_ARN = 'arn:aws:acm:us-east-1:897722671267:certificate/179da836-2e54-4140-890d-ca87a019a9e2';
 
-        const certificate = acm.Certificate.fromCertificateArn(this, `${stackName}-certificate-info`, CERTIFICATE_ARN);
+        const certificate = acm.Certificate.fromCertificateArn(this, `${stackName}-certificate-info`, process.env.CERTIFICATE_ARN || "");
 
         //#region [Create CloudFront Distribution]
         const cloudfrontDistribution = new cloudfront.CfnDistribution(
