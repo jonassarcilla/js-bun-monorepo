@@ -13,6 +13,10 @@ import * as apigatewayV2 from '@aws-cdk/aws-apigatewayv2';
 import { BaseResourceStackProps } from '../types/types';
 import * as s3deploy from 'aws-cdk-lib/aws-s3-deployment';
 import * as path from 'path';
+import * as dotenv from 'dotenv';
+import * as child_process from 'child_process';
+
+dotenv.config();
 
 interface FrontendStackProps extends BaseResourceStackProps {
     // Add any frontent related props
@@ -246,7 +250,8 @@ export class FrontendStack extends cdk.Stack {
             compatibleRuntimes: [lambda.Runtime.NODEJS_22_X],
             compatibleArchitectures: [lambda.Architecture.X86_64],
         });
-        lambdaFunctionLayer.node.addDependency(s3BucketInfo);
+        lambdaFunctionLayer.node.addDependency(s3Bucket);
+        lambdaFunctionLayer.node.addDependency(zipFileUpload);
         //#endregion
 
         // #region [Create Lambda Function]
@@ -282,9 +287,10 @@ export class FrontendStack extends cdk.Stack {
             ],
             role: lambdaFunctionRole.attrArn,
         });
-        lambdaFunction.node.addDependency(s3BucketInfo);
+        lambdaFunction.node.addDependency(s3Bucket);
         lambdaFunction.node.addDependency(lambdaFunctionRole);
         lambdaFunction.node.addDependency(lambdaFunctionLayer);
+        lambdaFunctionLayer.node.addDependency(zipFileUpload);
         lambdaFunction.cfnOptions.deletionPolicy = cdk.CfnDeletionPolicy.DELETE;
         //#endregion
 
@@ -305,7 +311,7 @@ export class FrontendStack extends cdk.Stack {
                 proxy: true,
             },
         );
-        lambdaFunctionApiGateWay.node.addDependency(lambdaFunctionInfo);
+        lambdaFunctionApiGateWay.node.addDependency(lambdaFunction);
         //#endregion
 
         //#region [Create CloudFront Origin Request Policy for UI Deployment CloudFront Distribution]
@@ -329,6 +335,8 @@ export class FrontendStack extends cdk.Stack {
             },
         );
         cloudFrontOriginRequestPolicy.node.addDependency(s3Bucket);
+        cloudFrontOriginRequestPolicy.node.addDependency(publicFolderUpload);
+        cloudFrontOriginRequestPolicy.node.addDependency(staticFolderUpload);
         cloudFrontOriginRequestPolicy.cfnOptions.deletionPolicy = cdk.CfnDeletionPolicy.DELETE;
         //#endregion
 
@@ -340,8 +348,8 @@ export class FrontendStack extends cdk.Stack {
         });
 
         const SUB_DOMAIN = `${stackName}.${DOMAIN_NAME}`;
-
-        const certificate = acm.Certificate.fromCertificateArn(this, `${stackName}-certificate-info`, process.env.CERTIFICATE_ARN || "");
+        const CERTIFICATE_ARN = process.env.CERTIFICATE_ARN || "";
+        const certificate = acm.Certificate.fromCertificateArn(this, `${stackName}-certificate-info`, CERTIFICATE_ARN);
 
         //#region [Create CloudFront Distribution]
         const cloudfrontDistribution = new cloudfront.CfnDistribution(

@@ -8,7 +8,11 @@
     "build": "tsc",
     "watch": "tsc -w",
     "test": "jest",
-    "cdk": "cdk"
+    "cdk": "cdk",
+    "infra:deploy-cleanup": "source .env && echo $DESTROY_STACK_NAME && echo $AWS_REGION && ./shell/deploy-cleanup.sh $DESTROY_STACK_NAME $AWS_REGION",
+    "infra:deploy": "concurrently \"bun run infra:deploy-cleanup\" \"cdk deploy --all --force --ci\"",
+    "infra:destroy-cleanup": "source .env && echo $DESTROY_STACK_NAME && echo $AWS_REGION && ./shell/destroy-cleanup.sh $DESTROY_STACK_NAME $AWS_REGION",
+    "infra:destroy": "concurrently \"bun run infra:destroy-cleanup\" \"cdk destroy --all --force --ci\""
   },
   "devDependencies": {
     "@aws-cdk/aws-apigatewayv2": "^1.204.0",
@@ -16,6 +20,8 @@
     "@types/jest": "^29.5.14",
     "@types/node": "22.7.9",
     "aws-cdk": "2.1004.0",
+    "concurrently": "^9.1.2",
+    "dotenv-cli": "^8.0.0",
     "jest": "^29.7.0",
     "ts-jest": "^29.2.5",
     "ts-node": "^10.9.2",
@@ -23,6 +29,7 @@
   },
   "dependencies": {
     "aws-cdk-lib": "2.181.1",
-    "constructs": "^10.0.0"
+    "constructs": "^10.0.0",
+    "dotenv": "^16.4.7"
   }
 }
