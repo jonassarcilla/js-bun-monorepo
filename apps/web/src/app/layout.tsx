@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ReactScan } from "@/components/utils/reactscan";
+import Head from "next/head";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -25,6 +26,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <Head>
+        <link rel="icon" href="img/favicon.ico" type="image/x-icon" sizes="16x16" />
+      </Head>
       <ReactScan />
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}

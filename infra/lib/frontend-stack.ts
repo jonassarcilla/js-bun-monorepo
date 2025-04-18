@@ -14,7 +14,6 @@ import { BaseResourceStackProps } from '../types/types';
 import * as s3deploy from 'aws-cdk-lib/aws-s3-deployment';
 import * as path from 'path';
 import * as dotenv from 'dotenv';
-import * as child_process from 'child_process';
 
 dotenv.config();
 
@@ -30,6 +29,8 @@ export class FrontendStack extends cdk.Stack {
         const region = this.region;
         const stackName = `${props.clientName}-${props.environment.toLowerCase()}`;
         const apiGatewayUrl = cdk.Fn.importValue(`${stackName}-backendStack-ApiGatewayUrl`);
+
+        const build_id = process.env.BUILD_ID || "";
 
         console.log(`Imported API Gateway URL: ${apiGatewayUrl}`);
 
@@ -246,7 +247,7 @@ export class FrontendStack extends cdk.Stack {
         //#region [Create Lambda Layer for Lambda Function]
         const lambdaFunctionLayer = new lambda.LayerVersion(this, `${stackName}-lambda-function-layer`, {
             layerVersionName: `${stackName}-lambda-function-layer`,
-            code: lambda.Code.fromBucket(s3BucketInfo, "packages/web-ui-node.zip"),
+            code: lambda.Code.fromBucket(s3BucketInfo, `packages/web-ui-node-${build_id}.zip`),
             compatibleRuntimes: [lambda.Runtime.NODEJS_22_X],
             compatibleArchitectures: [lambda.Architecture.X86_64],
         });
@@ -259,7 +260,7 @@ export class FrontendStack extends cdk.Stack {
             functionName: `${stackName}-lambda-function`,
             code: {
                 s3Bucket: s3Bucket.bucketName,
-                s3Key: 'packages/web-ui-function.zip',
+                s3Key: `packages/web-ui-function-${build_id}.zip`,
             },
             handler: 'run.sh',
             runtime: 'nodejs22.x',

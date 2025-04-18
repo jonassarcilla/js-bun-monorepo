@@ -44,23 +44,6 @@ perform_empty_s3_buckets() {
     fi
 
     echo "Finished. Emptying ${deployment_bucket} bucket successful!"
-
-    if ! aws s3api delete-objects --bucket $logging_bucket \
-        --delete "$(aws s3api list-object-versions --bucket $logging_bucket --query='{Objects: Versions[].{Key:Key,VersionId:VersionId}}')" --output text ; then
-        echo -e "\nBucket ${logging_bucket} already empty"
-    else
-        echo -e "\nBucket ${logging_bucket} contents exist, attempting to delete ..."
-    fi
-
-    # Delete all DeleteMarker Objects
-    if ! aws s3api delete-objects --bucket ${logging_bucket} \
-        --delete "$(aws s3api list-object-versions --bucket ${logging_bucket} --query='{Objects: DeleteMarkers[].{Key:Key,VersionId:VersionId}}')" --output text ; then
-        echo -e "\nBucket ${logging_bucket} already empty"
-    else
-        echo -e "\nBucket ${logging_bucket} DeleteMarker contents exist, attempting to delete ..."
-    fi
-
-    echo "Finished. Emptying ${logging_bucket} bucket successful!"
 }
 
 perform_empty_s3_buckets $deployment_bucket $logging_bucket

@@ -1,5 +1,6 @@
 import Image from 'next/image'
-import tenantLogo from './img/microsoft_logo.png';
+// import tenantLogo from './img/microsoft_logo.png';
+import d from "../../public/img/microsoft_logos.png"
 
 const HomePage = () => {
   return <>
@@ -43,7 +44,7 @@ const HomePage = () => {
             </button>
             <a href="https://flowbite.com" className="flex items-center justify-between mr-4">
               <Image
-                src={tenantLogo}
+                src={d}
                 className="mr-3 h-8"
                 alt="Microsoft Logo"
                 width={30}
@@ -54,7 +55,7 @@ const HomePage = () => {
               // blurDataURL="data:..." automatically provided
               // placeholder="blur" // Optional blur-up while loading
               />
-              <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Microsoft</span>
+              <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Microsoft Edited</span>
             </a>
             <form action="#" method="GET" className="hidden md:block md:pl-2">
               <label htmlFor="topbar-search" className="sr-only">Search</label>

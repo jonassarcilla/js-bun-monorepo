@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "next build",
+    "build": "sed -i '/^BUILD_ID=/d' .env && next build && ./.sh/extract_build_id.sh",
     "start": "next start",
     "start:ci": "node .next/standalone/server.js",
     "lint": "next lint",
@@ -13,8 +13,8 @@
     "package:node": "rm -rf ./.package/web-ui-node && mkdir -p ./.package/web-ui-node/nodejs && cp -r ./.next/standalone/node_modules ./.package/web-ui-node/nodejs",
     "package:static": "rm -rf ./.package/web-ui-static && mkdir -p ./.package/web-ui-static && cp -r ./.next/static ./.package/web-ui-static/",
     "package:public": "rm -rf ./.package/web-ui-public && mkdir -p ./.package/web-ui-public && cp -r ./public/* ./.package/web-ui-public/",
-    "package": "bun run package:function && bun run package:node && bun run package:static && bun run package:public",
-    "package:ci": "bun run package && cd .package/web-ui-function && zip -r ../web-ui-function.zip . && cd ../ && cd ../.package/web-ui-node && zip -r ../web-ui-node.zip ."
+    "package": "bun run package:remove && bun run package:function && bun run package:node && bun run package:static && bun run package:public",
+    "package:ci": "source .env && echo $BUILD_ID && bun run package && cd .package/web-ui-function && zip -r ../web-ui-function-$BUILD_ID.zip . && cd ../ && cd ../.package/web-ui-node && zip -r ../web-ui-node-$BUILD_ID.zip ."
   },
   "dependencies": {
     "next": "15.2.2",
