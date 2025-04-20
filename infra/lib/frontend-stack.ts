@@ -125,9 +125,9 @@ export class FrontendStack extends cdk.Stack {
         });
         zipFileUpload.node.addDependency(s3Bucket);
 
-        const publicFolderPath = path.join(packageFilePath, '/web-ui-public')
+        const publicFolderPath = path.join(packageFilePath, `/web-ui-public-${build_id}`)
 
-        const publicFolderUpload = new s3deploy.BucketDeployment(this, `${stackName}-public-folder-upload`, {
+        const publicFolderUpload = new s3deploy.BucketDeployment(this, `${stackName}-public-folder-upload-${build_id}`, {
             sources: [
                 s3deploy.Source.asset(publicFolderPath),
             ],
@@ -136,7 +136,7 @@ export class FrontendStack extends cdk.Stack {
         });
         publicFolderUpload.node.addDependency(s3Bucket);
 
-        const staticFolderPath = path.join(packageFilePath, '/web-ui-static')
+        const staticFolderPath = path.join(packageFilePath, `/web-ui-static-${build_id}`)
 
         const staticFolderUpload = new s3deploy.BucketDeployment(this, `${stackName}-static-folder-upload`, {
             sources: [

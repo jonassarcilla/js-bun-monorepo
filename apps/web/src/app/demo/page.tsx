@@ -5,8 +5,8 @@
 // import d from "../../../public/img/microsoft_logo.png"
 
 const DemoPage = () => {
-    return <>Demo Page
-
+    return <>
+        <h1 className="text-2xl">Demo Page</h1>
         <img
             src={"/img/microsoft_logos.png"}
             className="mr-3 h-8"

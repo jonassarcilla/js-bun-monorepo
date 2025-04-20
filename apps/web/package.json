@@ -11,15 +11,15 @@
     "package:remove": "rm -rf ./.package",
     "package:function": "rm -rf ./.package/web-ui-function && mkdir -p ./.package/web-ui-function && rsync -av --progress ./.next/standalone ./.sh/run.sh ./.package/web-ui-function --exclude standalone/node_modules",
     "package:node": "rm -rf ./.package/web-ui-node && mkdir -p ./.package/web-ui-node/nodejs && cp -r ./.next/standalone/node_modules ./.package/web-ui-node/nodejs",
-    "package:static": "rm -rf ./.package/web-ui-static && mkdir -p ./.package/web-ui-static && cp -r ./.next/static ./.package/web-ui-static/",
-    "package:public": "rm -rf ./.package/web-ui-public && mkdir -p ./.package/web-ui-public && cp -r ./public/* ./.package/web-ui-public/",
+    "package:static": "source .env && echo $BUILD_ID && rm -rf ./.package/web-ui-static-* && mkdir -p ./.package/web-ui-static-$BUILD_ID && cp -r ./.next/static ./.package/web-ui-static-$BUILD_ID/",
+    "package:public": "source .env && echo $BUILD_ID && rm -rf ./.package/web-ui-public-* && mkdir -p ./.package/web-ui-public-$BUILD_ID && cp -r ./public/* ./.package/web-ui-public-$BUILD_ID/",
     "package": "bun run package:remove && bun run package:function && bun run package:node && bun run package:static && bun run package:public",
     "package:ci": "source .env && echo $BUILD_ID && bun run package && cd .package/web-ui-function && zip -r ../web-ui-function-$BUILD_ID.zip . && cd ../ && cd ../.package/web-ui-node && zip -r ../web-ui-node-$BUILD_ID.zip ."
   },
   "dependencies": {
-    "next": "15.2.2",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
+    "next": "^15.3.1",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
     "react-scan": "^0.2.14"
   },
   "devDependencies": {
