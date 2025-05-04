@@ -5,7 +5,6 @@
   "private": true,
   "workspaces": [
     "apps/*",
-    "packages/*",
     "infra/*"
   ],
   "scripts": {
@@ -18,12 +17,18 @@
     "typecheck": "bun --cwd apps/web typecheck",
     "lint": "bun --cwd apps/web lint",
     "format": "bun --cwd apps/web format",
-    "test": "bun --cwd apps/web test"
+    "test": "bun --cwd apps/web test",
+    "cleanup": "rm bun.lock & rm -rf bun.lock & bun -r exec rm -rf bun.lock & rm -rf node_modules & bun -r exec rm -rf node_modules & npm cache clean --force"
   },
   "devDependencies": {
     "@types/bun": "latest"
   },
   "peerDependencies": {
     "typescript": "^5"
+  },
+  "dependencies": {
+    "next": "^15.3.1",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0"
   }
 }

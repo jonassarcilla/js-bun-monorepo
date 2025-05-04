@@ -9,7 +9,7 @@
     "watch": "tsc -w",
     "test": "jest",
     "cdk": "cdk",
-    "infra:build": "cd ../apps/web && bun run build && bun run package:ci && cd ../../infra && ./shell/extract-build-id.sh",
+    "infra:build": "cd ../../apps/web && bun run build && bun run package:ci && cd ../../infra/web && ./shell/extract-build-id.sh",
     "infra:deploy-cleanup": "source .env && echo $STACK_NAME && echo $AWS_REGION && ./shell/deploy-cleanup.sh $STACK_NAME $AWS_REGION",
     "infra:deploy": "concurrently \"bun run infra:deploy-cleanup\" \"cdk deploy --all --force --ci --require-approval never\"",
     "infra:destroy-cleanup": "source .env && echo $STACK_NAME && echo $AWS_REGION && ./shell/destroy-cleanup.sh $STACK_NAME $AWS_REGION",

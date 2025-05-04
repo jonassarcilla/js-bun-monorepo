@@ -55,7 +55,7 @@ const HomePage = () => {
               // blurDataURL="data:..." automatically provided
               // placeholder="blur" // Optional blur-up while loading
               />
-              <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Microsoft Edited</span>
+              <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Microsoft Demo May 5, 2025 A</span>
             </a>
             <form action="#" method="GET" className="hidden md:block md:pl-2">
               <label htmlFor="topbar-search" className="sr-only">Search</label>

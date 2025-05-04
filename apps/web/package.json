@@ -2,6 +2,7 @@
   "name": "web",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "sed -i '/^BUILD_ID=/d' .env && next build && ./.sh/extract_build_id.sh",
@@ -14,24 +15,46 @@
     "package:static": "source .env && echo $BUILD_ID && rm -rf ./.package/web-ui-static-* && mkdir -p ./.package/web-ui-static-$BUILD_ID && cp -r ./.next/static ./.package/web-ui-static-$BUILD_ID/",
     "package:public": "source .env && echo $BUILD_ID && rm -rf ./.package/web-ui-public-* && mkdir -p ./.package/web-ui-public-$BUILD_ID && cp -r ./public/* ./.package/web-ui-public-$BUILD_ID/",
     "package": "bun run package:remove && bun run package:function && bun run package:node && bun run package:static && bun run package:public",
-    "package:ci": "source .env && echo $BUILD_ID && bun run package && cd .package/web-ui-function && zip -r ../web-ui-function-$BUILD_ID.zip . && cd ../ && cd ../.package/web-ui-node && zip -r ../web-ui-node-$BUILD_ID.zip ."
+    "package:ci": "source .env && echo $BUILD_ID && bun run package && cd .package/web-ui-function && zip -r ../web-ui-function-$BUILD_ID.zip . && cd ../ && cd ../.package/web-ui-node && zip -r ../web-ui-node-$BUILD_ID.zip .",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
   },
   "dependencies": {
+    "@vscode/codicons": "^0.0.36",
     "next": "^15.3.1",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-scan": "^0.2.14"
   },
   "devDependencies": {
+    "@chromatic-com/storybook": "^3",
     "@eslint/eslintrc": "^3",
-    "@tailwindcss/postcss": "^4.0.14",
+    "@storybook/addon-essentials": "^8.6.12",
+    "@storybook/addon-onboarding": "^8.6.12",
+    "@storybook/blocks": "^8.6.12",
+    "@storybook/experimental-addon-test": "^8.6.12",
+    "@storybook/experimental-nextjs-vite": "8.6.12",
+    "@storybook/react": "^8.6.12",
+    "@storybook/test": "^8.6.12",
+    "@tailwindcss/postcss": "^4.1.4",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@vitest/browser": "^3.1.2",
+    "@vitest/coverage-v8": "^3.1.2",
     "eslint": "^9",
     "eslint-config-next": "15.2.2",
+    "eslint-plugin-storybook": "^0.12.0",
+    "playwright": "^1.52.0",
     "postcss": "^8.5.3",
-    "tailwindcss": "^4.0.14",
-    "typescript": "^5"
+    "storybook": "^8.6.12",
+    "tailwindcss": "^4.1.4",
+    "typescript": "^5",
+    "vitest": "^3.1.2"
+  },
+  "eslintConfig": {
+    "extends": [
+      "plugin:storybook/recommended"
+    ]
   }
 }

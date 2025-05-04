@@ -112,7 +112,7 @@ export class FrontendStack extends cdk.Stack {
         //#endregion
 
         // Deploy zip files from a local directory to the S3 bucket
-        const packageFilePath = path.join(__dirname, '../../apps/web/.package');
+        const packageFilePath = path.join(__dirname, '../../../apps/web/.package');
         const s3BucketInfo: s3.IBucket = s3.Bucket.fromBucketName(this, `${stackName}-s3-bucket-info`, String(s3Bucket.bucketName));
         const zipFileUpload = new s3deploy.BucketDeployment(this, `${stackName}-zip-file-upload`, {
             sources: [

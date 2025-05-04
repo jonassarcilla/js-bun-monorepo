@@ -3,7 +3,7 @@
 # chmod +x extract_build_id.sh
 script_dir=$(dirname "$0")
 
-file_path="$script_dir/../../apps/web/.next/BUILD_ID"
+file_path="$script_dir/../../../apps/web/.next/BUILD_ID"
 
 chmod +x $file_path
 
