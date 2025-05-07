@@ -3,6 +3,18 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "types": "dist/index.d.ts",
+  "module": "./dist/ui.es.js",
+  "main": "./dist/ui.umd.js",
+  "exports": {
+    ".": {
+      "import": "./dist/ui.es.js",
+      "require": "./dist/ui.umd.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
@@ -13,9 +25,11 @@
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.5",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
     "tailwindcss": "^4.1.5"
+  },
+  "peerDependencies": {
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
   },
   "devDependencies": {
     "@chromatic-com/storybook": "^3",
